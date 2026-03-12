@@ -56,118 +56,156 @@ const AdminDashboard = () => {
       navigate(`/admin/edit-event/${id}`);
   };
 
-  const handleView = (id: string) => {
-      navigate(`/book/${id}`);
-  };
-
   return (
-    <div className="relative min-h-screen bg-gray-50 text-gray-800 font-sans overflow-hidden">
+    <div className="min-h-screen bg-gray-50 font-sans">
       <NavbarAdmin />
       
-      {/* Decorative Background Bubbles */}
-      <div className="fixed top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-100 rounded-full blur-3xl opacity-30 pointer-events-none -z-0"></div>
-      <div className="fixed bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-indigo-100 rounded-full blur-3xl opacity-30 pointer-events-none -z-0"></div>
-
-      <div className="pt-28 px-6 max-w-7xl mx-auto pb-12 relative z-10">
-        <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Admin Dashboard</h1>
-            <button 
-                onClick={() => navigate("/admin/create-event")}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg transition transform hover:-translate-y-0.5 flex items-center gap-2"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-                Create Project
-            </button>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+        {/* Header */}
+        <div className="md:flex md:items-center md:justify-between mb-8">
+            <div className="flex-1 min-w-0">
+                <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Dashboard Overview</h2>
+                <p className="mt-1 text-sm text-gray-500">Welcome back! Here's what's happening with your events today.</p>
+            </div>
+            <div className="mt-4 flex md:mt-0 md:ml-4">
+                <button 
+                    onClick={() => navigate("/admin/create-event")}
+                    className="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                    Create New Event
+                </button>
+            </div>
         </div>
 
         {/* Stats Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition">
-                <div className="flex justify-between items-start">
-                    <div>
-                        <h3 className="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-1">Total Events</h3>
-                        <p className="text-4xl font-extrabold text-gray-900">{stats.events}</p>
-                    </div>
-                    <div className="p-3 bg-blue-50 text-blue-600 rounded-xl">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition">
-                <div className="flex justify-between items-start">
-                    <div>
-                         <h3 className="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-1">Total Users</h3>
-                         <p className="text-4xl font-extrabold text-gray-900">{stats.users}</p>
-                    </div>
-                    <div className="p-3 bg-green-50 text-green-600 rounded-xl">
-                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
-                         </svg>
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-10">
+            {/* Total Events */}
+            <div className="bg-white overflow-hidden shadow-sm rounded-lg border border-gray-200">
+                <div className="p-5">
+                    <div className="flex items-center">
+                        <div className="flex-shrink-0">
+                            <div className="p-3 bg-indigo-100 rounded-lg text-indigo-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div className="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt className="text-sm font-medium text-gray-500 truncate">Total Events</dt>
+                                <dd>
+                                    <div className="text-lg font-bold text-gray-900">{stats.events}</div>
+                                </dd>
+                            </dl>
+                        </div>
                     </div>
                 </div>
             </div>
-             <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition">
-                <div className="flex justify-between items-start">
-                    <div>
-                        <h3 className="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-1">Total Bookings</h3>
-                        <p className="text-4xl font-extrabold text-gray-900">{stats.bookings}</p>
+
+            {/* Total Users */}
+            <div className="bg-white overflow-hidden shadow-sm rounded-lg border border-gray-200">
+                <div className="p-5">
+                    <div className="flex items-center">
+                        <div className="flex-shrink-0">
+                            <div className="p-3 bg-green-100 rounded-lg text-green-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div className="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt className="text-sm font-medium text-gray-500 truncate">Total Users</dt>
+                                <dd>
+                                    <div className="text-lg font-bold text-gray-900">{stats.users}</div>
+                                </dd>
+                            </dl>
+                        </div>
                     </div>
-                    <div className="p-3 bg-purple-50 text-purple-600 rounded-xl">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v4.5c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-4.5c0-.621-.504-1.125-1.125-1.125H3.375z" />
-                        </svg>
+                </div>
+            </div>
+
+            {/* Total Bookings */}
+            <div className="bg-white overflow-hidden shadow-sm rounded-lg border border-gray-200">
+                <div className="p-5">
+                    <div className="flex items-center">
+                        <div className="flex-shrink-0">
+                            <div className="p-3 bg-purple-100 rounded-lg text-purple-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div className="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt className="text-sm font-medium text-gray-500 truncate">Total Bookings</dt>
+                                <dd>
+                                    <div className="text-lg font-bold text-gray-900">{stats.bookings}</div>
+                                </dd>
+                            </dl>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         {/* Events List */}
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                <h2 className="text-xl font-bold text-gray-800">Manage Events</h2>
+        <div className="bg-white shadow-sm border border-gray-200 rounded-lg overflow-hidden">
+            <div className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6 flex justify-between items-center">
+                <h3 className="text-lg leading-6 font-medium text-gray-900">Manage Events</h3>
             </div>
             
             <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                    <thead>
-                        <tr className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider font-semibold border-b border-gray-100">
-                            <th className="p-5 pl-8">Event Title</th>
-                            <th className="p-5">Date</th>
-                            <th className="p-5">Available Seats</th>
-                            <th className="p-5 text-center">Actions</th>
+                <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                        <tr>
+                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event Title</th>
+                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100">
+                    <tbody className="bg-white divide-y divide-gray-200">
                         {loading ? (
-                            <tr><td colSpan={4} className="p-8 text-center text-gray-500 animate-pulse">Loading events...</td></tr>
+                            <tr><td colSpan={4} className="px-6 py-12 text-center text-sm text-gray-500">Loading events...</td></tr>
                         ) : events.length === 0 ? (
-                             <tr><td colSpan={4} className="p-8 text-center text-gray-500 font-medium">No events found. Create one!</td></tr>
+                             <tr><td colSpan={4} className="px-6 py-12 text-center text-sm text-gray-500">No events found. Start by creating one!</td></tr>
                         ) : (
                             events.map(event => (
-                                <tr key={event._id} className="hover:bg-blue-50/50 transition duration-200">
-                                    <td className="p-5 pl-8 font-semibold text-gray-900">{event.title}</td>
-                                    <td className="p-5 text-gray-600 font-medium">{new Date(event.date).toLocaleDateString()}</td>
-                                    <td className="p-5 text-gray-600 font-medium">
-                                        <span className={`px-3 py-1 rounded-full text-sm ${event.availableSeats > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                                            {event.availableSeats}
+                                <tr key={event._id} className="hover:bg-gray-50 transition-colors">
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="text-sm font-medium text-gray-900">{event.title}</div>
+                                        <div className="text-xs text-gray-500 truncate max-w-xs">{event.description.substring(0, 50)}...</div>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {new Date(event.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${event.availableSeats > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                            {event.availableSeats > 0 ? `${event.availableSeats} Seats Left` : 'Sold Out'}
                                         </span>
                                     </td>
-                                    <td className="p-5 text-center">
-                                        <div className="flex justify-center gap-3">
-                                            <button onClick={() => handleEdit(event._id)} className="text-yellow-600 hover:text-yellow-700 bg-yellow-50 hover:bg-yellow-100 p-2 rounded-lg transition shadow-sm" title="Edit">
-                                                {/* Edit Icon */}
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                                                  <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                    <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                        <div className="flex justify-center gap-2">
+                                            <button 
+                                                onClick={() => handleEdit(event._id)} 
+                                                className="text-amber-600 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 p-1.5 rounded-md transition" 
+                                                title="Edit"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                                 </svg>
                                             </button>
-                                            <button onClick={() => handleDelete(event._id)} className="text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 p-2 rounded-lg transition shadow-sm" title="Delete">
-                                                {/* Trash Icon */}
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                                                  <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                            <button 
+                                                onClick={() => handleDelete(event._id)} 
+                                                className="text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 p-1.5 rounded-md transition" 
+                                                title="Delete"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                 </svg>
                                             </button>
                                         </div>
