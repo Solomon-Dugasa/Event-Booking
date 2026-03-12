@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-slate-900 border-t border-slate-800 text-white py-12 px-6">
+    <footer className="w-full bg-slate-900 border-t border-slate-800 text-white py-8 px-6 relative z-10">
       <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
         {/* Brand Column */}
         <div className="md:col-span-1">
@@ -60,7 +60,7 @@ const Footer = () => {
               placeholder="Enter your email"
               className="bg-slate-800 border border-slate-700 text-white px-4 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-500 transition-all font-medium text-sm"
             />
-            <button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-2.5 rounded-lg transition-all shadow-lg hover:shadow-blue-500/25 transform hover:-translate-y-0.5 text-sm cursor-pointer">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg transition-all shadow-lg hover:shadow-blue-500/25 transform hover:-translate-y-0.5 text-sm cursor-pointer">
               Subscribe Now
             </button>
           </form>

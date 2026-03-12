@@ -14,6 +14,7 @@ const EditEvent = () => {
         availableSeats: 0,
         imageUrl: ""
     });
+    const [file, setFile] = useState<File | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -41,11 +42,35 @@ const EditEvent = () => {
         }));
     };
 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setFile(e.target.files[0]);
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             if (!id) return;
-            await updateEvent(id, formData);
+            
+            const data = new FormData();
+            data.append("title", formData.title);
+            data.append("description", formData.description);
+            data.append("date", formData.date);
+            data.append("totalSeats", formData.totalSeats.toString());
+            // We usually don't update availableSeats directly on edit unless logic requires, 
+            // but if totalSeats changed, we might need to adjust availableSeats. 
+            // For now, let's keep existing logic or just send what is needed.
+            // The backend updateEvent uses req.body which can be partial.
+            // But FormData doesn't support nested objects easily, so flat structure is best.
+
+            if (file) {
+                data.append("image", file);
+            } else if (formData.imageUrl) {
+                data.append("imageUrl", formData.imageUrl);
+            }
+
+            await updateEvent(id, data);
             navigate("/admin");
         } catch (error) {
             console.error("Error updating event:", error);
@@ -130,6 +155,26 @@ const EditEvent = () => {
                             value={formData.imageUrl}
                             onChange={handleChange}
                             className="w-full bg-gray-50 text-gray-900 p-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
+                            disabled={!!file}
+                        />
+                    </div>
+
+                    <div className="relative">
+                        <div className="absolute inset-0 flex items-center">
+                            <span className="w-full border-t border-gray-300"></span>
+                        </div>
+                        <div className="relative flex justify-center text-sm">
+                            <span className="px-2 bg-white text-gray-500">Or upload an image</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-gray-700 font-medium mb-2">Upload Image</label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                            className="w-full bg-gray-50 text-gray-900 p-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"
                         />
                     </div>
                     <div className="flex gap-4 pt-4">

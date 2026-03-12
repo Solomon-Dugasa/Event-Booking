@@ -128,14 +128,14 @@ const AdminDashboard = () => {
         {/* Events List */}
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
             <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                <h2 className="text-xl font-bold text-gray-800">Manage Projects / Events</h2>
+                <h2 className="text-xl font-bold text-gray-800">Manage Events</h2>
             </div>
             
             <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                     <thead>
                         <tr className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider font-semibold border-b border-gray-100">
-                            <th className="p-5 pl-8">Project Title</th>
+                            <th className="p-5 pl-8">Event Title</th>
                             <th className="p-5">Date</th>
                             <th className="p-5">Available Seats</th>
                             <th className="p-5 text-center">Actions</th>
@@ -145,7 +145,7 @@ const AdminDashboard = () => {
                         {loading ? (
                             <tr><td colSpan={4} className="p-8 text-center text-gray-500 animate-pulse">Loading events...</td></tr>
                         ) : events.length === 0 ? (
-                             <tr><td colSpan={4} className="p-8 text-center text-gray-500 font-medium">No projects found. Create one!</td></tr>
+                             <tr><td colSpan={4} className="p-8 text-center text-gray-500 font-medium">No events found. Create one!</td></tr>
                         ) : (
                             events.map(event => (
                                 <tr key={event._id} className="hover:bg-blue-50/50 transition duration-200">

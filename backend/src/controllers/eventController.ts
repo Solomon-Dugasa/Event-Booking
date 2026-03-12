@@ -14,7 +14,12 @@ interface EventRequestBody {
 // Create a new event
 export const createEvent = async (req: Request<{}, {}, EventRequestBody>, res: Response) => {
     try {
-        const { title, description, date, totalSeats, availableSeats, imageUrl } = req.body;
+        const { title, description, date, totalSeats, availableSeats } = req.body;
+        let { imageUrl } = req.body;
+
+        if ((req as any).file) {
+            imageUrl = `${req.protocol}://${req.get('host')}/uploads/${(req as any).file.filename}`;
+        }
 
         const event = await Event.create({
             title,
@@ -88,7 +93,13 @@ export const getEventCount = async (req: Request, res: Response) => {
 export const updateEvent = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const updatedEvent = await Event.findByIdAndUpdate(id, req.body, { new: true });
+        let updateData = req.body;
+
+        if ((req as any).file) {
+            updateData.imageUrl = `${req.protocol}://${req.get('host')}/uploads/${(req as any).file.filename}`;
+        }
+
+        const updatedEvent = await Event.findByIdAndUpdate(id, updateData, { new: true });
         if (!updatedEvent) {
              return res.status(404).json({ message: "Event not found" });
         }

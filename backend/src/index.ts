@@ -2,6 +2,7 @@ import express, { Response, Request} from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from 'path';
 
 // Import routes
 import authRoutes from './routes/authRoutes';
@@ -14,6 +15,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from the uploads directory
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Routes
 app.use("/api/auth", authRoutes);

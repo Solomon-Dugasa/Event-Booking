@@ -109,7 +109,15 @@ const MyBookings = () => {
                                             </button>
                                         </>
                                     ) : (
-                                        <p className="text-red-500 text-sm">Event information is missing.</p>
+                                        <div className="flex flex-col h-full justify-center">
+                                            <p className="text-red-500 text-sm font-medium mb-4">Event information is missing.</p>
+                                            <button
+                                                onClick={() => handleCancelBooking(booking._id)}
+                                                className="w-full py-2 bg-red-50 text-red-600 font-semibold rounded-lg hover:bg-red-100 transition-colors text-sm cursor-pointer"
+                                            >
+                                                Remove Booking
+                                            </button>
+                                        </div>
                                     )}
                                 </div>
                             </div>

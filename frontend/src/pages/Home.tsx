@@ -1,7 +1,26 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import NavbarHome from "../components/NavbarHome";
 import Footer from "../components/Footer";
+import { getEvents } from '../services/eventService';
+import { type Event } from '../types/event';
 
 const Home = () => {
+  const [events, setEvents] = useState<Event[]>([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const data = await getEvents();
+        setEvents(data);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+    fetchEvents();
+  }, []);
+
   return (
     <div className="relative min-h-screen bg-blue-50 text-gray-800 overflow-hidden">
       <NavbarHome />
@@ -29,11 +48,11 @@ const Home = () => {
 
         {/* Buttons */}
         <div className="flex gap-4 mt-10">
-          <button className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-3.5 rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition transform">
+          <button className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-3.5 rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition transform cursor-pointer">
             Explore Events
           </button>
 
-          <button className="bg-white text-gray-700 border border-gray-200 px-8 py-3.5 rounded-full font-bold shadow-sm hover:bg-gray-50 hover:shadow-md transition">
+          <button className="bg-white text-gray-700 border border-gray-200 px-8 py-3.5 rounded-full font-bold shadow-sm hover:bg-gray-50 hover:shadow-md transition cursor-pointer">
             Learn More
           </button>
         </div>
@@ -54,82 +73,40 @@ const Home = () => {
 
         {/* Event Cards */}
         <div className="grid md:grid-cols-3 gap-8">
-
-          {/* Card 1 */}
-          <div className="bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition duration-300 shadow-lg border border-gray-100 flex flex-col hover:-translate-y-1">
-            <div className="h-48 overflow-hidden relative">
-              <img
-                src="https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2"
-                alt="Concert"
-                className="h-full w-full object-cover hover:scale-110 transition duration-700"
-              />
-              <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-indigo-700 text-xs font-bold px-3 py-1 rounded-full uppercase shadow-sm">
-                Concert
+          {events.length > 0 ? (
+            events.map((event) => (
+              <div key={event._id} className="bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition duration-300 shadow-lg border border-gray-100 flex flex-col hover:-translate-y-1">
+                <div className="h-48 overflow-hidden relative">
+                  <img
+                    src={event.imageUrl || "https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2"}
+                    alt={event.title}
+                    className="h-full w-full object-cover hover:scale-110 transition duration-700"
+                  />
+                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-indigo-700 text-xs font-bold px-3 py-1 rounded-full uppercase shadow-sm">
+                    Event
+                  </div>
+                </div>
+                <div className="p-6 flex flex-col flex-grow">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{event.title}</h3>
+                  <p className="text-gray-500 text-sm mb-4 font-medium flex items-center gap-2">
+                    <span>📅 {new Date(event.date).toLocaleDateString()}</span>
+                  </p>
+                  <div className="mt-auto">
+                    <button 
+                      onClick={() => navigate('/login')}
+                      className="w-full bg-blue-50 text-blue-600 font-bold py-3 rounded-xl hover:bg-blue-100 transition-colors cursor-pointer"
+                    >
+                      View Details
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="p-6 flex flex-col flex-grow">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Live Music Concert</h3>
-              <p className="text-gray-500 text-sm mb-4 font-medium flex items-center gap-2">
-                <span>📍 New York</span> • <span>📅 Mar 25, 2026</span>
-              </p>
-              <div className="mt-auto">
-                <button className="w-full bg-blue-50 text-blue-600 font-bold py-3 rounded-xl hover:bg-blue-100 transition-colors">
-                  View Details
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 2 */}
-          <div className="bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition duration-300 shadow-lg border border-gray-100 flex flex-col hover:-translate-y-1">
-            <div className="h-48 overflow-hidden relative">
-              <img
-                src="https://images.unsplash.com/photo-1511578314322-379afb476865"
-                alt="Tech Event"
-                className="h-full w-full object-cover hover:scale-110 transition duration-700"
-              />
-              <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-indigo-700 text-xs font-bold px-3 py-1 rounded-full uppercase shadow-sm">
-                Tech
-              </div>
-            </div>
-            <div className="p-6 flex flex-col flex-grow">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Tech Conference</h3>
-              <p className="text-gray-500 text-sm mb-4 font-medium flex items-center gap-2">
-                <span>📍 San Francisco</span> • <span>📅 Apr 10, 2026</span>
-              </p>
-              <div className="mt-auto">
-                <button className="w-full bg-blue-50 text-blue-600 font-bold py-3 rounded-xl hover:bg-blue-100 transition-colors">
-                  View Details
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 3 */}
-          <div className="bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition duration-300 shadow-lg border border-gray-100 flex flex-col hover:-translate-y-1">
-            <div className="h-48 overflow-hidden relative">
-              <img
-                src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30"
-                alt="Festival"
-                className="h-full w-full object-cover hover:scale-110 transition duration-700"
-              />
-              <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-indigo-700 text-xs font-bold px-3 py-1 rounded-full uppercase shadow-sm">
-                Festival
-              </div>
-            </div>
-            <div className="p-6 flex flex-col flex-grow">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Food Festival</h3>
-              <p className="text-gray-500 text-sm mb-4 font-medium flex items-center gap-2">
-                <span>📍 Chicago</span> • <span>📅 May 2, 2026</span>
-              </p>
-              <div className="mt-auto">
-                <button className="w-full bg-blue-50 text-blue-600 font-bold py-3 rounded-xl hover:bg-blue-100 transition-colors">
-                  View Details
-                </button>
-              </div>
-            </div>
-          </div>
-
+            ))
+          ) : (
+             <div className="bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition duration-300 shadow-lg border border-gray-100 flex flex-col hover:-translate-y-1 col-span-3 items-center justify-center p-12">
+                <p className="text-gray-500 text-lg">No events found. Check back soon!</p>
+             </div>
+          )}
         </div>
       </div>
       

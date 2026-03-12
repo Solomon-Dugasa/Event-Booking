@@ -13,6 +13,7 @@ const CreateEvent = () => {
         availableSeats: 0,
         imageUrl: ""
     });
+    const [file, setFile] = useState<File | null>(null);
     const [loading, setLoading] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -23,14 +24,30 @@ const CreateEvent = () => {
         }));
     };
 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setFile(e.target.files[0]);
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         try {
-            await createEvent({
-                ...formData,
-                availableSeats: formData.totalSeats
-            });
+            const data = new FormData();
+            data.append("title", formData.title);
+            data.append("description", formData.description);
+            data.append("date", formData.date);
+            data.append("totalSeats", formData.totalSeats.toString());
+            data.append("availableSeats", formData.totalSeats.toString());
+
+            if (file) {
+                data.append("image", file);
+            } else if (formData.imageUrl) {
+                data.append("imageUrl", formData.imageUrl);
+            }
+
+            await createEvent(data);
             navigate("/admin");
         } catch (error) {
             console.error("Error creating event:", error);
@@ -44,17 +61,17 @@ const CreateEvent = () => {
         <div className="min-h-screen bg-gray-50 text-gray-800 font-sans">
             <NavbarAdmin />
             <div className="pt-32 pb-12 px-6 max-w-2xl mx-auto">
-                <h1 className="text-3xl font-bold mb-8 text-center text-gray-900">Create New Project</h1>
+                <h1 className="text-3xl font-bold mb-8 text-center text-gray-900">Create New Event</h1>
                 
                 <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 space-y-6">
                     <div>
-                        <label className="block text-gray-700 font-medium mb-2">Project Title</label>
+                        <label className="block text-gray-700 font-medium mb-2">Event Title</label>
                         <input
                             type="text"
                             name="title"
                             value={formData.title}
                             onChange={handleChange}
-                            placeholder="Enter project title"
+                            placeholder="Enter event title"
                             className="w-full bg-gray-50 text-gray-900 p-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"
                             required
                         />
@@ -67,7 +84,7 @@ const CreateEvent = () => {
                             value={formData.description}
                             onChange={handleChange}
                             rows={4}
-                            placeholder="Describe the project..."
+                            placeholder="Describe the event..."
                             className="w-full bg-gray-50 text-gray-900 p-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"
                             required
                         />
@@ -100,16 +117,38 @@ const CreateEvent = () => {
                         </div>
                     </div>
 
-                    <div>
-                        <label className="block text-gray-700 font-medium mb-2">Image URL (Optional)</label>
-                        <input
-                            type="text"
-                            name="imageUrl"
-                            value={formData.imageUrl}
-                            onChange={handleChange}
-                            placeholder="https://example.com/image.jpg"
-                            className="w-full bg-gray-50 text-gray-900 p-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"
-                        />
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-gray-700 font-medium mb-2">Image URL (Optional)</label>
+                            <input
+                                type="text"
+                                name="imageUrl"
+                                value={formData.imageUrl}
+                                onChange={handleChange}
+                                placeholder="https://example.com/image.jpg"
+                                className="w-full bg-gray-50 text-gray-900 p-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"
+                                disabled={!!file}
+                            />
+                        </div>
+
+                         <div className="relative">
+                            <div className="absolute inset-0 flex items-center">
+                                <span className="w-full border-t border-gray-300"></span>
+                            </div>
+                            <div className="relative flex justify-center text-sm">
+                                <span className="px-2 bg-white text-gray-500">Or upload an image</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-gray-700 font-medium mb-2">Upload Image</label>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                className="w-full bg-gray-50 text-gray-900 p-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"
+                            />
+                        </div>
                     </div>
 
                     <div className="flex gap-4 pt-4">
