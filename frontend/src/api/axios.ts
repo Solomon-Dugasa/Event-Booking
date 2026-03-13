@@ -2,7 +2,7 @@ import axios, { type InternalAxiosRequestConfig } from 'axios';
 
 // 1. Create the instance with your backend URL
 const API = axios.create({
-  baseURL: "https://event-booking-1-ecrk.onrender.com/api", // Adjust to your backend port
+  baseURL: import.meta.env.VITE_API_URL
 });
 
 // 2. Add a request interceptor

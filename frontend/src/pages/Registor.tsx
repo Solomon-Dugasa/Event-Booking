@@ -6,8 +6,8 @@ import { registerUser } from "../services/authService";
 
 const Register = () => {
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
+    const [, setLoading] = useState(false);
+    const [, setError] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",

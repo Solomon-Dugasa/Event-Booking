@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getEvents, deleteEvent, getEventCount } from "../services/eventService";
 import { getUserCount } from "../services/authService";
 import { getBookingCount } from "../services/bookingService";
